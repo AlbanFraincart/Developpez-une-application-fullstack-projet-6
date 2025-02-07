@@ -1,40 +1,65 @@
 package com.openclassrooms.mddapi.entities;
-// Importations nécessaires
+
+import jakarta.validation.constraints.*;
+import lombok.*;
+import lombok.experimental.Accessors;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-// --- Entité User ---
 @Entity
+@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
+@Data
+@Accessors(chain = true)
+@EntityListeners(AuditingEntityListener.class)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @NotBlank
+    @Size(max = 20)
     private String username;
 
-    @Column(nullable = false, unique = true)
+    @NotBlank
+    @Size(max = 50)
+    @Email
     private String email;
 
-    @Column(nullable = false)
+    @NotBlank
+    @Size(max = 120)
     private String password;
 
+    @NotBlank
+    @Size(max = 20)
+    @Column(name = "last_name")
+    private String lastName;
+
+    @NotBlank
+    @Size(max = 20)
+    @Column(name = "first_name")
+    private String firstName;
+
     @CreatedDate
-    @Column(nullable = false, updatable = false)
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
-    @LastModifiedDate
+    @UpdateTimestamp
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Article> articles;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
     @ManyToMany
@@ -44,6 +69,4 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "topic_id")
     )
     private List<Topic> subscriptions;
-
-    // Getters et setters
 }
