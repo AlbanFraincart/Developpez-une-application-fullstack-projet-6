@@ -1,9 +1,9 @@
 package com.openclassrooms.mddapi.entities;
 
+import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 
 // --- Entité Comment ---
