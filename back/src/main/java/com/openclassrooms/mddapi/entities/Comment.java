@@ -1,19 +1,28 @@
 package com.openclassrooms.mddapi.entities;
 
 import jakarta.persistence.*;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
-// --- Entité Comment ---
 @Entity
+@Table(name = "comment")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@ToString(exclude = {"user", "article"})
+@EntityListeners(AuditingEntityListener.class) // Active l'audit automatique
 public class Comment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(nullable = false, columnDefinition = "TEXT") // Un commentaire ne peut pas être vide
     private String content;
 
     @CreatedDate
@@ -23,13 +32,11 @@ public class Comment {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @ManyToOne(optional = false) // Un commentaire est toujours lié à un utilisateur
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "article_id")
+    @ManyToOne(optional = false) // Un commentaire est toujours lié à un article
+    @JoinColumn(name = "article_id", nullable = false)
     private Article article;
-
-    // Getters et setters
 }

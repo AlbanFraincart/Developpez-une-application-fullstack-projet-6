@@ -12,25 +12,25 @@ import java.time.LocalDateTime;
 public class UserDto {
     private Long id;
 
-    @NonNull
+    @NotBlank
+    @Size(max = 20)
     private String username;
 
-    @NonNull
-    @Size(max = 50)
+    @NotBlank
     @Email
     private String email;
 
-    @NonNull
-    @Size(max = 20)
+    @NotBlank
+    @Size(max = 30)
     private String lastName;
 
-    @NonNull
-    @Size(max = 20)
+    @NotBlank
+    @Size(max = 30)
     private String firstName;
 
-    @JsonIgnore
-    @Size(max = 120)
-    private String password;
+//    @JsonIgnore
+//    @Size(max = 120)
+//    private String password;
 
     private LocalDateTime createdAt;
 
