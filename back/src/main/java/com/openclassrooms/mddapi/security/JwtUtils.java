@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.crypto.SecretKey;
 import java.security.Key;
 import java.util.Date;
 
@@ -35,9 +36,9 @@ public class JwtUtils {
         Key key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
 
         return Jwts.builder()
-                .setSubject(userPrincipal.getEmail())
-                .setIssuedAt(now)
-                .setExpiration(expiryDate)
+                .subject(userPrincipal.getEmail())
+                .issuedAt(now)
+                .expiration(expiryDate)
                 // Utilise signWith(key) pour déduire automatiquement l'algorithme
                 .signWith(key)
                 .compact();
@@ -47,12 +48,12 @@ public class JwtUtils {
      * Extrait le nom d'utilisateur (subject) du token JWT.
      */
     public String getUserNameFromJwtToken(String token) {
-        Key key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
+        SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
         return Jwts.parser()
-                .setSigningKey(key)
+                .verifyWith(key)
                 .build()
-                .parseClaimsJws(token)
-                .getBody()
+                .parseSignedClaims(token)
+                .getPayload()
                 .getSubject();
     }
 
@@ -61,8 +62,8 @@ public class JwtUtils {
      */
     public boolean validateJwtToken(String authToken) {
         try {
-            Key key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
-            Jwts.parser().setSigningKey(key).build().parseClaimsJws(authToken);
+            SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
+            Jwts.parser().verifyWith(key).build().parseSignedClaims(authToken);
             return true;
         } catch (JwtException | IllegalArgumentException e) {
             // Le token n'est pas valide

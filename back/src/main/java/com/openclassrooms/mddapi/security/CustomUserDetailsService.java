@@ -2,6 +2,7 @@ package com.openclassrooms.mddapi.security;
 
 import com.openclassrooms.mddapi.entities.User;
 import com.openclassrooms.mddapi.repositories.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,16 +12,17 @@ import org.springframework.stereotype.Service;
 /**
  * Service qui charge un utilisateur à partir de la base de données.
  */
+@RequiredArgsConstructor
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-    // Injection du repository via le constructeur
-    @Autowired
-    public CustomUserDetailsService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+//    // Injection du repository via le constructeur
+//    @Autowired
+//    public CustomUserDetailsService(UserRepository userRepository) {
+//        this.userRepository = userRepository;
+//    }
 
     /**
      * Charge l'utilisateur par son email.

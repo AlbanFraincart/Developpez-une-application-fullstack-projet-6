@@ -1,7 +1,7 @@
 package com.openclassrooms.mddapi.services;
 
 import com.openclassrooms.mddapi.entities.User;
-import com.openclassrooms.mddapi.payload.JwtResponse;
+import com.openclassrooms.mddapi.payload.response.JwtResponse;
 
 import com.openclassrooms.mddapi.payload.request.LoginRequest;
 import com.openclassrooms.mddapi.payload.request.SignupRequest;
@@ -47,13 +47,14 @@ public class AuthService {
                 .orElseThrow(() -> new RuntimeException("Erreur : Utilisateur non trouvé."));
 
         // Retourner la réponse contenant le token, le username et l'email
-        return new JwtResponse(jwt, "Bearer", user.getUsername(), user.getEmail());
+        return new JwtResponse(jwt, user.getUsername(), user.getEmail());
     }
 
     public String register(SignupRequest signupRequest) {
-        if (userRepository.existsByEmail(signupRequest.getEmail())) {
+        userRepository.findByEmail(signupRequest.getEmail()).ifPresent(user -> {
             throw new RuntimeException("Erreur : L'email est déjà utilisé !");
-        }
+        });
+
         // Créer un nouvel utilisateur avec le mot de passe encodé (bcrypt)
         User user = User.builder()
                 .username(signupRequest.getUsername())
