@@ -15,6 +15,9 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Représente un utilisateur enregistré sur la plateforme.
+ */
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
@@ -57,13 +60,19 @@ public class User {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    /** Articles écrits par l'utilisateur. */
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @OnDelete(action = OnDeleteAction.SET_NULL)
     private List<Article> articles;
 
+    /** Commentaires laissés par l'utilisateur. */
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Comment> comments;
 
+    /**
+     * Liste des topics auxquels l'utilisateur est abonné.
+     * Cette relation `@ManyToMany` est gérée par la table `subscription`.
+     */
     @ManyToMany
     @JoinTable(
             name = "subscription",

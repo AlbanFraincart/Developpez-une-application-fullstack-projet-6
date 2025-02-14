@@ -12,6 +12,9 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Représente un topic (thème) auquel les utilisateurs peuvent s'abonner.
+ */
 @Entity
 @Table(name = "topic")
 @Data
@@ -37,9 +40,11 @@ public class Topic {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
+    /** Liste des utilisateurs abonnés à ce topic. */
     @ManyToMany(mappedBy = "subscriptions")
     private List<User> users;
 
+    /** Liste des articles associés à ce topic. */
     @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Article> articles;
 

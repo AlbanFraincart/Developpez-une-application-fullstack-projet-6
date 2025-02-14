@@ -11,6 +11,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Représente un article publié sur un topic.
+ */
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Entity
 @Table(name = "article")
@@ -38,14 +41,17 @@ public class Article {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
+    /** Auteur de l'article. */
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    /** Topic auquel l'article est associé. */
     @ManyToOne(optional = false)
     @JoinColumn(name = "topic_id", nullable = false)
     private Topic topic;
 
+    /** Liste des commentaires associés à cet article. */
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
 }

@@ -4,10 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
- * DTO utilisé pour les messages de réponse (succès ou erreur).
+ * DTO générique pour les réponses de l'API.
  */
 @Data
 @AllArgsConstructor
-public class MessageResponse {
+public class ResponseDto {
     private String message;
+    private boolean success;
 }
