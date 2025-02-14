@@ -1,0 +1,54 @@
+<div class="auth-wrapper">
+  <div class="auth-container">
+    <h2>{{ isLoginMode ? "Connexion" : "Inscription" }}</h2>
+
+    <form>
+      <div *ngIf="isLoginMode">
+        <div>
+          <label>Email</label>
+          <input type="email" required />
+        </div>
+
+        <div>
+          <label>Mot de passe</label>
+          <input type="password" required />
+        </div>
+      </div>
+      <div *ngIf="!isLoginMode">
+        <div>
+          <label>Email</label>
+          <input type="email" required />
+        </div>
+
+        <div>
+          <label>Mot de passe</label>
+          <input type="password" required />
+        </div>
+
+        <div>
+          <label>Nom d'utilisateur</label>
+          <input type="username" required />
+        </div>
+
+        <div>
+          <label>Prénom</label>
+          <input type="firstName" required />
+        </div>
+
+        <div>
+          <label>Nom</label>
+          <input type="lastName" required />
+        </div>
+      </div>
+
+      <app-button
+        [label]="isLoginMode ? 'Se connecter' : 'S\'inscrire'"
+        (click)="test()"
+      ></app-button>
+    </form>
+
+    <button mat-button (click)="toggleMode()">
+      {{ isLoginMode ? "Créer un compte" : "J'ai déjà un compte" }}
+    </button>
+  </div>
+</div>

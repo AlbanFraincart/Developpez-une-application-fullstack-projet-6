@@ -1,0 +1,43 @@
+.auth-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.auth-container {
+  max-width: 400px;
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+
+    div {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+      gap: 5px;
+    }
+
+    label {
+      margin-bottom: 5px; // Ajoute un espacement constant sous chaque label
+      font-weight: 500; // Rend le texte légèrement plus visible
+    }
+
+    input {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+  }
+
+  .toggle-auth {
+    margin-top: 15px;
+  }
+}
