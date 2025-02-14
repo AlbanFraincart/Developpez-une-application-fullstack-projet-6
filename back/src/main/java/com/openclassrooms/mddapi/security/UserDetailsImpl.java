@@ -10,6 +10,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
 
+/**
+ * Implémentation de UserDetails pour Spring Security.
+ * Représente un utilisateur authentifié avec ses informations.
+ */
 @Getter
 @RequiredArgsConstructor
 public class UserDetailsImpl implements UserDetails {
@@ -20,6 +24,12 @@ public class UserDetailsImpl implements UserDetails {
     private final String password;
     private final Collection<? extends GrantedAuthority> authorities;
 
+    /**
+     * Construit un objet UserDetailsImpl à partir d'un utilisateur.
+     *
+     * @param user L'entité User.
+     * @return Une instance de UserDetailsImpl.
+     */
     public static UserDetailsImpl build(User user) {
         return new UserDetailsImpl(
                 user.getId(),

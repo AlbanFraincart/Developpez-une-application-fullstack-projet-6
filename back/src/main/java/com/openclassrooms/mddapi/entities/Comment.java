@@ -8,6 +8,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
+/**
+ * Représente un commentaire laissé sur un article.
+ */
 @Entity
 @Table(name = "comment")
 @Data
@@ -32,10 +35,12 @@ public class Comment {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
+    /** Auteur du commentaire. */
     @ManyToOne(optional = false) // Un commentaire est toujours lié à un utilisateur
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    /** Article sur lequel le commentaire est posté. */
     @ManyToOne(optional = false) // Un commentaire est toujours lié à un article
     @JoinColumn(name = "article_id", nullable = false)
     private Article article;
