@@ -1,4 +1,54 @@
-/* You can add global styles to this file, and also import other style files */
+@use "@angular/material" as mat;
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+// 1️⃣ Définition d'une palette personnalisée avec la couleur #7763C5
+$custom-purple: (
+  50: #ede9f9,
+  100: #d2c6f2,
+  200: #b5a2ea,
+  300: #987de2,
+  400: #8161dc,
+  500: #7763c5,
+  // Couleur principale
+  600: #6a58b7,
+  700: #5c4da6,
+  800: #4e4195,
+  900: #3a2c79,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+  ),
+);
+
+// 2️⃣ Création du thème personnalisé basé sur la couleur custom-purple
+$custom-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: mat.define-palette($custom-purple, 500),
+      // Utilisation de la couleur
+      accent: mat.define-palette(mat.$amber-palette, 500),
+      // Couleur secondaire
+      warn: mat.define-palette(mat.$red-palette),
+    ),
+  )
+);
+
+// 3️⃣ Activation du thème personnalisé
+@include mat.core();
+@include mat.all-component-themes($custom-theme);
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: "Inter", "Helvetica Neue", sans-serif;
+}

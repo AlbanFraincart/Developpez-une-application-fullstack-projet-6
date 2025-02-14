@@ -1,11 +1,19 @@
 <div class="center">
-  <img src="/assets/logo_p6.png" alt="logo" />
-  <h1>Welcome to MDD</h1>
-  <button mat-raised-button color="primary" (click)="start()">Commencer</button>
-  <button style="margin-top: 10px" (click)="hello()">Hello</button>
-  <p>{{ this.helloMessage }}</p>
-  <div *ngFor="let topic of topics; let i = index">
-    <p>{{ topic.name }}</p>
-    <p>{{ topic.description }}</p>
+  <img src="/assets/logo_p6.svg" alt="logo" />
+  <div class="button-group">
+    <button
+      mat-raised-button
+      [routerLink]="['/auth']"
+      [queryParams]="{ mode: 'login' }"
+    >
+      Se connecter
+    </button>
+    <button
+      mat-raised-button
+      [routerLink]="['/auth']"
+      [queryParams]="{ mode: 'register' }"
+    >
+      S'inscrire
+    </button>
   </div>
 </div>
