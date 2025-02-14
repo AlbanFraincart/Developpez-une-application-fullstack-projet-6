@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Représente un article publié sur un topic.
  */
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id") //éviter références circulaires
 @Entity
 @Table(name = "article")
 @Data

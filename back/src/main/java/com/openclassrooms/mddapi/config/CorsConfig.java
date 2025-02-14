@@ -16,8 +16,8 @@ public class CorsConfig {
                 registry.addMapping("/api/**") // Applique CORS sur toutes les routes API
                         .allowedOrigins("http://localhost:4200") // Autorise Angular
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Méthodes autorisées
-                        .allowedHeaders("*") // Autorise tous les headers
-                        .allowCredentials(true); // Permet l'authentification avec cookies
+                        .allowedHeaders("*") // Autorise tous les headers, à modifier à la fin
+                        .allowCredentials(true);
             }
         };
     }
