@@ -42,7 +42,7 @@ public class Topic {
 
     /** Liste des utilisateurs abonnés à ce topic. */
     @ManyToMany(mappedBy = "subscriptions")
-    private List<User> users;
+    private List<User> users; //a enlever, pas besoin de voir utilisateurs souscrits
 
     /** Liste des articles associés à ce topic. */
     @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, orphanRemoval = true)
