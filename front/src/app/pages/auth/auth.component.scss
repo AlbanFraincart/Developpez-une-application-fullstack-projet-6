@@ -14,7 +14,7 @@
   form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 10px;
     width: 100%;
 
     div {
@@ -25,8 +25,9 @@
     }
 
     label {
-      margin-bottom: 5px; // Ajoute un espacement constant sous chaque label
-      font-weight: 500; // Rend le texte légèrement plus visible
+      margin-top: 5px;
+      margin-bottom: 2px;
+      font-weight: 500;
     }
 
     input {

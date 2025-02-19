@@ -4,10 +4,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { MaterialModule } from './material.module';
 import { AuthComponent } from './pages/auth/auth.component';
 import { SharedModule } from './shared/shared.module';
+import { AuthInterceptor } from './core/auth.interceptor';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, AuthComponent],
@@ -17,9 +19,11 @@ import { SharedModule } from './shared/shared.module';
     BrowserAnimationsModule,
     HttpClientModule,
     MaterialModule,
-    SharedModule
+    SharedModule,
+    ReactiveFormsModule
   ],
-  providers: [],
-  bootstrap: [AppComponent],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ], bootstrap: [AppComponent],
 })
 export class AppModule { }
