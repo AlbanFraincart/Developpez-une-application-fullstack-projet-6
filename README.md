@@ -42,11 +42,11 @@ Il s'agit d'un réseau social pour développeurs permettant de s'inscrire, se co
 
 - Créer un fichier .env à la racine du backend
 
-echo "DB_URL=jdbc:mysql://localhost:3306/votre_base?useSSL=false&serverTimezone=UTC" > back/.env
-echo "DB_USERNAME=root" >> back/.env
-echo "DB_PASSWORD=root" >> back/.env
-echo "JWT_SECRET=votre_cle_secrete" >> back/.env
-echo "JWT_EXPIRATION_MS=86400000" >> back/.env
+DB_URL=jdbc:mysql://localhost:3306/votre_base?useSSL=false&serverTimezone=UTC"
+DB_USERNAME=root"
+DB_PASSWORD=root"
+JWT_SECRET=votre_cle_secrete"
+JWT_EXPIRATION_MS=86400000"
 
 - cd back
 - mvn clean install

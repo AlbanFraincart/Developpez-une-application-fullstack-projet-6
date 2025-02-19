@@ -4,8 +4,10 @@ import com.openclassrooms.mddapi.entities.User;
 import com.openclassrooms.mddapi.payload.response.JwtResponse;
 import com.openclassrooms.mddapi.payload.request.LoginRequest;
 import com.openclassrooms.mddapi.payload.request.SignupRequest;
+import com.openclassrooms.mddapi.payload.response.ResponseDto;
 import com.openclassrooms.mddapi.repositories.UserRepository;
 import com.openclassrooms.mddapi.security.JwtUtils;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -78,22 +80,25 @@ public class AuthService {
      * @return Message confirmant la réussite de l'inscription.
      * @throws RuntimeException si l'email est déjà utilisé.
      */
-    public String register(SignupRequest signupRequest) {
+    public ResponseEntity<ResponseDto> register(SignupRequest signupRequest) {
         // Vérification de l'existence de l'email
         userRepository.findByEmail(signupRequest.getEmail()).ifPresent(user -> {
             throw new RuntimeException("Erreur : L'email est déjà utilisé !");
         });
 
-        // Création et encodage du mot de passe de l'utilisateur
+        // Création et encodage du mot de passe
         User user = User.builder()
                 .username(signupRequest.getUsername())
                 .email(signupRequest.getEmail())
-                .password(passwordEncoder.encode(signupRequest.getPassword())) // Encodage sécurisé du mot de passe
+                .password(passwordEncoder.encode(signupRequest.getPassword()))
                 .firstName(signupRequest.getFirstName())
                 .lastName(signupRequest.getLastName())
                 .build();
 
-        userRepository.save(user); // Sauvegarde de l'utilisateur en base de données
-        return "Utilisateur enregistré avec succès !";
+        userRepository.save(user);
+
+        // Retourne une réponse JSON standardisée
+        return ResponseEntity.ok(new ResponseDto("Utilisateur enregistré avec succès !", true));
     }
+
 }
