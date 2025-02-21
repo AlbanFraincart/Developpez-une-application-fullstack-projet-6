@@ -86,4 +86,10 @@ public class ArticleController {
     public ResponseEntity<List<ArticleDto>> getArticlesByTopic(@PathVariable Long topicId) {
         return ResponseEntity.ok(articleService.getArticlesByTopic(topicId));
     }
+
+    @GetMapping("/subscriptions/{userId}")
+    public ResponseEntity<List<ArticleDto>> getArticlesForUser(@PathVariable Long userId) {
+        List<ArticleDto> articles = articleService.getArticlesForUser(userId);
+        return ResponseEntity.ok(articles);
+    }
 }

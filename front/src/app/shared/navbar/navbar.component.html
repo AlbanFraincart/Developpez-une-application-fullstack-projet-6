@@ -1,0 +1,30 @@
+<mat-toolbar color="primary" class="navbar" *ngIf="!hideNavbar()">
+  <!-- LOGO -->
+  <div class="logo">
+    <img src="/assets/logo_p6.svg" alt="MDD Logo" />
+  </div>
+
+  <!-- Desktop Navigation -->
+  <div class="nav-links" *ngIf="!isAuthPage() && !isMobile">
+    <nav class="nav">
+      <a [routerLink]="['/articles']" routerLinkActive="active-link">
+        Articles
+      </a>
+      <a [routerLink]="['/topics']" routerLinkActive="active-link"> Thèmes </a>
+    </nav>
+  </div>
+
+  <!-- Profil Icon (uniquement en desktop) -->
+  <button class="profil-btn" mat-icon-button *ngIf="!isAuthPage() && !isMobile">
+    <img src="/assets/user.svg" class="profil-img" alt="MDD Logo" />
+  </button>
+
+  <!-- Menu Hamburger pour mobile -->
+  <button
+    mat-icon-button
+    (click)="toggleSidenav()"
+    *ngIf="!isAuthPage() && isMobile"
+  >
+    <mat-icon>menu</mat-icon>
+  </button>
+</mat-toolbar>

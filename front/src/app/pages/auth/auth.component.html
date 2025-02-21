@@ -1,85 +1,66 @@
 <div class="auth-wrapper">
+  <button (click)="back()" class="back-button">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+
   <div class="auth-container">
-    <h2>{{ isLoginMode ? "Connexion" : "Inscription" }}</h2>
+    <img
+      src="/assets/logo_p6.svg"
+      alt="logo"
+      *ngIf="isMobile()"
+      class="auth-logo"
+    />
+
+    <h2>{{ isLoginMode() ? "Connexion" : "Inscription" }}</h2>
 
     <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
-      <div *ngIf="isLoginMode">
-        <div>
-          <label>Email</label>
-          <input type="email" formControlName="email" required />
-          <small
-            *ngIf="
-              authForm.get('email')?.invalid && authForm.get('email')?.touched
-            "
-          >
-            Email invalide
-          </small>
-        </div>
-
-        <div>
-          <label>Mot de passe</label>
-          <input type="password" formControlName="password" required />
-          <small
-            *ngIf="
-              authForm.get('password')?.invalid &&
-              authForm.get('password')?.touched
-            "
-          >
-            Mot de passe trop court (min 6 caractères)
-          </small>
-        </div>
+      <div>
+        <label>Email</label>
+        <input type="email" formControlName="email" required />
+        <small
+          *ngIf="
+            authForm.get('email')?.invalid && authForm.get('email')?.touched
+          "
+        >
+          Email invalide
+        </small>
       </div>
-      <div *ngIf="!isLoginMode">
-        <div>
-          <label>Email</label>
-          <input type="email" formControlName="email" required />
-          <small
-            *ngIf="
-              authForm.get('email')?.invalid && authForm.get('email')?.touched
-            "
-          >
-            Email invalide
-          </small>
-        </div>
 
-        <div>
-          <label>Mot de passe</label>
-          <input type="password" formControlName="password" required />
-          <small
-            *ngIf="
-              authForm.get('password')?.invalid &&
-              authForm.get('password')?.touched
-            "
-          >
-            Mot de passe trop court (min 6 caractères)
-          </small>
-        </div>
+      <div>
+        <label>Mot de passe</label>
+        <input type="password" formControlName="password" required />
+        <small
+          *ngIf="
+            authForm.get('password')?.invalid &&
+            authForm.get('password')?.touched
+          "
+        >
+          Mot de passe trop court (min 6 caractères)
+        </small>
+      </div>
 
-        <div>
-          <label>Nom d'utilisateur</label>
-          <input type="text" formControlName="username" />
-        </div>
+      <div *ngIf="!isLoginMode()">
+        <label>Nom d'utilisateur</label>
+        <input type="text" formControlName="username" required />
+        <small
+          *ngIf="
+            authForm.get('username')?.invalid &&
+            authForm.get('username')?.touched
+          "
+        >
+          Nom d'utilisateur requis
+        </small>
+      </div>
 
-        <div>
-          <label>Prénom</label>
-          <input type="text" formControlName="firstName" />
-        </div>
-
-        <div>
-          <label>Nom</label>
-          <input type="text" formControlName="lastName" />
-        </div>
+      <div *ngIf="authError()" class="error-message">
+        {{ authError() }}
       </div>
 
       <app-button
-        [label]="isLoginMode ? 'Se connecter' : 'S\'inscrire'"
+        [label]="isLoginMode() ? 'Se connecter' : 'S\'inscrire'"
         [disabled]="authForm.invalid"
         type="submit"
       ></app-button>
     </form>
-
-    <button mat-button (click)="toggleMode()">
-      {{ isLoginMode ? "Créer un compte" : "J'ai déjà un compte" }}
-    </button>
   </div>
 </div>

@@ -45,13 +45,13 @@ public class User {
     @Size(max = 120)
     private String password;
 
-    @NotBlank
-    @Size(max = 20)
-    private String lastName;
-
-    @NotBlank
-    @Size(max = 20)
-    private String firstName;
+//    @NotBlank
+//    @Size(max = 20)
+//    private String lastName;
+//
+//    @NotBlank
+//    @Size(max = 20)
+//    private String firstName;
 
     @CreatedDate
     @Column(updatable = false)

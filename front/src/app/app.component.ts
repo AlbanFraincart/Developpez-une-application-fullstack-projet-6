@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, computed, HostListener, signal } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,19 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'front';
+  currentUrl = signal(this.router.url);
+  isHome = computed(() => this.currentUrl() === '/');
+  isMobile = window.innerWidth < 768;
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.isMobile = window.innerWidth < 768;
+  }
+
+  constructor(private router: Router) {
+    this.router.events.subscribe(() => {
+      this.currentUrl.set(this.router.url);
+    });
+  }
+
 }

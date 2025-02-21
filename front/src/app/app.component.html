@@ -1,1 +1,40 @@
-<router-outlet></router-outlet>
+<!-- Pour mobile : tout est dans le mat-sidenav-container -->
+<ng-container *ngIf="isMobile; else desktopTemplate">
+  <mat-sidenav-container style="height: 100vh">
+    <mat-sidenav #sidenav mode="over" position="end" style="width: 60%">
+      <div class="sidenav-container">
+        <nav class="sidenav-nav">
+          <a
+            [routerLink]="['/articles']"
+            routerLinkActive="active-link"
+            (click)="sidenav.close()"
+          >
+            Articles
+          </a>
+          <a
+            [routerLink]="['/topics']"
+            routerLinkActive="active-link"
+            (click)="sidenav.close()"
+          >
+            Thèmes
+          </a>
+        </nav>
+        <div class="sidenav-footer">
+          <button mat-icon-button (click)="sidenav.close()">
+            <img src="/assets/user.svg" class="profil-img" alt="Profil" />
+          </button>
+        </div>
+      </div>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <app-navbar (menuToggle)="sidenav.toggle()"></app-navbar>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</ng-container>
+
+<!-- Template Desktop -->
+<ng-template #desktopTemplate>
+  <app-navbar></app-navbar>
+  <router-outlet></router-outlet>
+</ng-template>

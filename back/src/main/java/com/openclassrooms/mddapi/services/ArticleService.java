@@ -124,4 +124,11 @@ public class ArticleService {
                 .map(articleMapper::toDto)
                 .toList();
     }
+
+    @Transactional(readOnly = true)
+    public List<ArticleDto> getArticlesForUser(Long userId) {
+        List<Article> articles = articleRepository.findArticlesByUserSubscriptions(userId);
+        return articles.stream().map(articleMapper::toDto).toList();
+    }
+
 }

@@ -1,1 +1,29 @@
-<p>dashboard works!</p>
+<!-- HEADER -->
+<div class="dashboard-header">
+  <!-- Bouton "Créer un article" -->
+  <app-button
+    label="Créer un article"
+    (clickEvent)="goToCreateArticle()"
+  ></app-button>
+
+  <!-- Trier par (flèche montante / descendante) -->
+  <div class="sort-container" (click)="toggleSortOrder()">
+    <span>Trier par</span>
+    <mat-icon>
+      {{ sortAscending ? "arrow_upward" : "arrow_downward" }}
+    </mat-icon>
+  </div>
+</div>
+
+<!-- GRID DES ARTICLES -->
+<div class="article-grid">
+  <app-card
+    *ngFor="let article of articles"
+    [title]="article.title"
+    [date]="article.date"
+    [author]="article.author"
+    [description]="article.description"
+    (cardClick)="goToArticle(article.id)"
+  >
+  </app-card>
+</div>
