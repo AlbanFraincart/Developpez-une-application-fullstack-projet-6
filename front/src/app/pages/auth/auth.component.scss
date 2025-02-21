@@ -1,7 +1,7 @@
 .auth-wrapper {
   display: flex;
   justify-content: center;
-  align-items: center;
+  // align-items: center;
   height: 100vh;
 }
 
@@ -40,5 +40,42 @@
 
   .toggle-auth {
     margin-top: 15px;
+  }
+}
+
+.error-message {
+  color: red;
+  font-weight: bold;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.auth-logo {
+  width: 220px;
+  height: auto;
+  display: block;
+  margin: 0 auto 15px;
+}
+
+.back-button {
+  position: absolute;
+  top: 60px;
+  left: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  font-size: 24px;
+  color: #333; // Couleur adaptable au design
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    color: #007bff; // Couleur au survol
+  }
+
+  mat-icon {
+    font-size: 32px;
   }
 }

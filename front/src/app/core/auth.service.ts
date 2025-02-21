@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { AuthCredentials, User } from './auth.model';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +26,7 @@ export class AuthService {
   }
 
   // Connexion
-  login(credentials: { email: string; password: string }): Observable<any> {
+  login(credentials: AuthCredentials): Observable<{ token: string }> {
     return this.http.post<{ token: string }>(`${this.apiUrl}/login`, credentials).pipe(
       tap((response) => {
         localStorage.setItem(this.tokenKey, response.token);
@@ -35,7 +36,7 @@ export class AuthService {
   }
 
   // Inscription
-  register(userData: any): Observable<any> {
+  register(userData: User): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, userData);
   }
 

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, computed, HostListener, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { User } from 'src/app/core/auth.model';
 import { AuthService } from 'src/app/core/auth.service';
 
 @Component({
@@ -9,59 +10,90 @@ import { AuthService } from 'src/app/core/auth.service';
   styleUrl: './auth.component.scss'
 })
 export class AuthComponent implements OnInit {
-  isLoginMode = true; // Par défaut, mode connexion
+  isMobile = signal(window.innerWidth < 768);
+  // isLoginMode!: boolean;
   authForm!: FormGroup;
+  authError = signal<string | null>(null);
+  // Détecter la valeur de `mode` dans l'URL
+  currentMode = signal(this.route.snapshot.queryParams['mode'] || 'login');
+  isLoginMode = computed(() => this.currentMode() === 'login');
 
 
-
-  constructor(private route: ActivatedRoute, private fb: FormBuilder,
+  constructor(private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router) { }
-
-  ngOnInit() {
-    // this.route.queryParams.subscribe((params) => {
-    //   this.isLoginMode = params['mode'] !== 'register'; // Si "register", passe en mode inscription
-    // });
-
-    // Création du formulaire
-    this.authForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      username: [''],
-      firstName: [''],
-      lastName: [''],
+    private router: Router, private route: ActivatedRoute) {
+    // Met à jour `currentMode` quand l'URL change
+    this.route.queryParams.subscribe((params) => {
+      this.currentMode.set(params['mode'] || 'login');
+      this.updateFormFields();
     });
   }
 
-  toggleMode() {
-    this.isLoginMode = !this.isLoginMode;
-    console.log('toggleMode', this.isLoginMode);
+  ngOnInit() {
+    this.createForm();
   }
+
+  createForm() {
+    this.authForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+    });
+
+    // Ajoute `username` en mode inscription
+    this.updateFormFields();
+  }
+
+  updateFormFields() {
+    if (!this.isLoginMode()) {
+      this.authForm.addControl('username', this.fb.control('', [Validators.required]));
+    } else {
+      this.authForm.removeControl('username');
+    }
+  }
+
+  // toggleMode() {
+  //   this.isLoginMode = !this.isLoginMode;
+  //   console.log('toggleMode', this.isLoginMode);
+  // }
+
+
 
   onSubmit() {
     if (this.authForm.invalid) return;
 
+    this.authError.set(null);
     const formData = this.authForm.value;
 
-    if (this.isLoginMode) {
-      console.log('login', formData);
+    if (this.isLoginMode()) {
       this.authService.login({ email: formData.email, password: formData.password }).subscribe({
-        next: () => this.router.navigate(['/dashboard']),
-        error: (err) => console.error('Erreur de connexion', err)
+        next: () => this.router.navigate(['/articles']),
+        error: (err) => {
+          console.error('Erreur de connexion', err);
+          this.authError.set(err.message);
+        }
       });
     } else {
-      console.log('register', formData);
-      const newUser = {
+      const newUser: User = {
         email: formData.email,
         password: formData.password,
         username: formData.username,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
       };
       this.authService.register(newUser).subscribe({
-        next: () => this.router.navigate(['/dashboard']),
-        error: (err) => console.error('Erreur d\'inscription', err)
+        next: () => this.router.navigate(['/articles']),
+        error: (err) => {
+          console.error("Erreur d'inscription", err);
+          this.authError.set(err.message);
+        }
       });
     }
+  }
+
+  back() {
+    this.router.navigate(['/']);
+  }
+
+  @HostListener('window:resize', [])
+  onResize() {
+    this.isMobile.set(window.innerWidth < 768);
   }
 }
