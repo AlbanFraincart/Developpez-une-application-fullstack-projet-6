@@ -34,13 +34,19 @@ export class NavbarComponent implements OnInit {
 
   @HostListener('window:resize', ['$event'])
   checkScreenSize(event?: Event) {
-    console.log('toggleSidenaveeeeeeeee');
 
     this.isMobile = window.innerWidth < 768;
   }
   toggleSidenav() {
     console.log('toggleSidenav');
     this.menuToggle.emit();
+  }
+
+  goToProfile() {
+    this.router.navigate(['/profile']);
+    if (this.sidenav) {
+      this.sidenav.close(); // ✅ Ferme le menu après navigation (mobile)
+    }
   }
 
 }

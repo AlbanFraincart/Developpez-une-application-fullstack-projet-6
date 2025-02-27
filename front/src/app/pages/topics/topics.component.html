@@ -1,1 +1,7 @@
-<p>topics works!</p>
+<div class="article-grid">
+  <app-card
+    *ngFor="let topic of topics"
+    [data]="topic"
+    (cardClick)="subscribeToTopic(topic.id)"
+  ></app-card>
+</div>

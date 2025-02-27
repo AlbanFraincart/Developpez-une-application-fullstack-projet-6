@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { AuthCredentials, User } from './auth.model';
+import { AuthCredentials, RegisterUser, User } from './auth.model';
 
 @Injectable({
   providedIn: 'root',
@@ -36,7 +36,7 @@ export class AuthService {
   }
 
   // Inscription
-  register(userData: User): Observable<any> {
+  register(userData: RegisterUser): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, userData);
   }
 
@@ -46,6 +46,11 @@ export class AuthService {
     this.userSubject.next(false);
     this.router.navigate(['/auth']);
   }
+
+  getCurrentUser(): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/users/me`);
+  }
+
 
   // Récupérer le token stocké
   getToken(): string | null {

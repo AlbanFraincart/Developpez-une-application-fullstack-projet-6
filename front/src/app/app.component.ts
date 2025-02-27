@@ -22,4 +22,7 @@ export class AppComponent {
     });
   }
 
+  goToProfile() {
+    this.router.navigate(['/profile']);
+  }
 }

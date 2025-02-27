@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CardData } from 'src/app/models/card.model';
 
 @Component({
   selector: 'app-card',
@@ -6,11 +7,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrl: './card.component.scss'
 })
 export class CardComponent {
-  @Input() title!: string;
-  @Input() date!: string;
-  @Input() author!: string;
-  @Input() description!: string;
-
+  @Input() data!: CardData;
   @Output() cardClick = new EventEmitter<void>();
 
   onCardClick() {

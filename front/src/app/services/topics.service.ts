@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Topic } from '../models/topic.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,9 @@ export class TopicsService {
   constructor(private http: HttpClient) { }
 
 
-  getHello(): Observable<any> {
-    return this.http.get(this.apiUrl + '/topics');
+  getTopics(): Observable<Topic[]> {
+    return this.http.get<Topic[]>(this.apiUrl + '/topics');
   }
+
+
 }

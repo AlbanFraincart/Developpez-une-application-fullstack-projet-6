@@ -15,7 +15,12 @@
   </div>
 
   <!-- Profil Icon (uniquement en desktop) -->
-  <button class="profil-btn" mat-icon-button *ngIf="!isAuthPage() && !isMobile">
+  <button
+    class="profil-btn"
+    (click)="goToProfile()"
+    mat-icon-button
+    *ngIf="!isAuthPage() && !isMobile"
+  >
     <img src="/assets/user.svg" class="profil-img" alt="MDD Logo" />
   </button>
 

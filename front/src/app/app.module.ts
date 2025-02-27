@@ -13,9 +13,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ErrorInterceptor } from './core/error.interceptor';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { TopicsComponent } from './pages/topics/topics.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, AuthComponent, DashboardComponent, TopicsComponent],
+  declarations: [AppComponent, HomeComponent, AuthComponent, DashboardComponent, TopicsComponent, ProfileComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
