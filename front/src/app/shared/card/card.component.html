@@ -1,9 +1,19 @@
-<mat-card (click)="onCardClick()" class="article-card">
-  <mat-card-title>{{ title }}</mat-card-title>
-  <mat-card-subtitle>
-    <span>{{ date }}</span> | <span>{{ author }}</span>
+<mat-card (click)="onCardClick()" class="data-card">
+  <mat-card-title>{{ data.title }}</mat-card-title>
+  <mat-card-subtitle
+    *ngIf="data.createdAt && data.authorUsername"
+    class="data-card-subtitle"
+  >
+    <span>{{ data.createdAt }}</span>
+    <span>{{ data.authorUsername }}</span>
   </mat-card-subtitle>
   <mat-card-content>
-    <p>{{ description }}</p>
+    <p>{{ data.content }}</p>
   </mat-card-content>
+  <div class="card-footer" *ngIf="data.buttonLabel">
+    <app-button
+      [label]="data.buttonLabel"
+      (clickEvent)="onCardClick()"
+    ></app-button>
+  </div>
 </mat-card>

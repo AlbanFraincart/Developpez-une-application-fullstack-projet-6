@@ -1,0 +1,52 @@
+<div class="profile-container">
+  <div class="first-container">
+    <h2 class="profile-title">Profil utilisateur</h2>
+
+    <!-- Formulaire -->
+    <div class="profile-form">
+      <form [formGroup]="profileForm">
+        <input
+          class="profile-input"
+          type="text"
+          placeholder="Username"
+          formControlName="username"
+        />
+        <input
+          class="profile-input"
+          type="email"
+          placeholder="email@email.fr"
+          formControlName="email"
+        />
+      </form>
+
+      <!-- Bouton Sauvegarder -->
+      <div class="button-group">
+        <app-button
+          label="Sauvegarder"
+          (clickEvent)="saveProfile()"
+        ></app-button>
+
+        <!-- Bouton Déconnexion -->
+        <p class="logout-text" (click)="logout()">Se déconnecter</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Séparateur -->
+  <hr class="separator" />
+
+  <!-- Liste des abonnements -->
+  <h3 class="subscriptions-title">Abonnements</h3>
+  <div class="subscriptions-grid">
+    <app-card
+      *ngFor="let subscription of subscriptions"
+      [data]="{
+        id: subscription.id,
+        title: subscription.name,
+        content: subscription.description,
+        buttonLabel: 'Se désabonner'
+      }"
+      (cardClick)="unsubscribe(subscription.id)"
+    ></app-card>
+  </div>
+</div>

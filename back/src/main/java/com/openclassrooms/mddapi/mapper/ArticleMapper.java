@@ -23,6 +23,7 @@ public interface ArticleMapper {
      */
     @Mapping(source = "user.id", target = "userId")
     @Mapping(source = "topic.id", target = "topicId")
+    @Mapping(source = "user.username", target = "authorUsername")
     ArticleDto toDto(Article article);
 
     /**

@@ -28,6 +28,8 @@ public class ArticleDto {
     @NotNull(message = "L'identifiant de l'utilisateur est obligatoire")
     private Long userId;
 
+    private String authorUsername;
+
     @NotNull(message = "L'identifiant du sujet est obligatoire")
     private Long topicId;
 }

@@ -1,7 +1,7 @@
 import { Component, computed, HostListener, OnInit, signal } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { User } from 'src/app/core/auth.model';
+import { RegisterUser } from 'src/app/core/auth.model';
 import { AuthService } from 'src/app/core/auth.service';
 
 @Component({
@@ -44,12 +44,17 @@ export class AuthComponent implements OnInit {
   }
 
   updateFormFields() {
+    if (!this.authForm) return; // ✅ Vérifie que le formulaire existe
+
     if (!this.isLoginMode()) {
       this.authForm.addControl('username', this.fb.control('', [Validators.required]));
     } else {
-      this.authForm.removeControl('username');
+      if (this.authForm.contains('username')) { // ✅ Vérifie que le champ existe avant de le supprimer
+        this.authForm.removeControl('username');
+      }
     }
   }
+
 
   // toggleMode() {
   //   this.isLoginMode = !this.isLoginMode;
@@ -73,7 +78,7 @@ export class AuthComponent implements OnInit {
         }
       });
     } else {
-      const newUser: User = {
+      const newUser: RegisterUser = {
         email: formData.email,
         password: formData.password,
         username: formData.username,

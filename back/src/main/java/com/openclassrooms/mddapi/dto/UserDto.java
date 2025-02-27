@@ -20,18 +20,6 @@ public class UserDto {
     @Email
     private String email;
 
-//    @NotBlank
-//    @Size(max = 30)
-//    private String lastName;
-//
-//    @NotBlank
-//    @Size(max = 30)
-//    private String firstName;
-
-//    @JsonIgnore
-//    @Size(max = 120)
-//    private String password;
-
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;

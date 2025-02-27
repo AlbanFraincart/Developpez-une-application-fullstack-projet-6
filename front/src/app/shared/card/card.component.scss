@@ -1,4 +1,4 @@
-.article-card {
+.data-card {
   padding: 10px;
   background-color: #f5f5f5;
   cursor: pointer;
@@ -17,8 +17,23 @@
     font-weight: 400;
   }
 
+  .card-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: auto;
+  }
+
   @media (max-width: 768px) {
     height: 150px;
     max-height: 150px;
   }
+}
+
+.data-card-subtitle {
+  display: flex;
+  gap: 108px;
+}
+
+.data-card-subtitle span:first-child {
+  margin-right: 8px;
 }

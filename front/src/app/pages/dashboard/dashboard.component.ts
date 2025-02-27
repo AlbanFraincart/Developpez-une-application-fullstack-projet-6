@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { User } from 'src/app/core/auth.model';
+import { AuthService } from 'src/app/core/auth.service';
+import { Article } from 'src/app/models/article.model';
+import { CardData } from 'src/app/models/card.model';
+import { ArticlesService } from 'src/app/services/articles.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,34 +12,28 @@ import { Router } from '@angular/router';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
-  // Simulation d'articles
-  articles = [
-    {
-      id: 1,
-      title: 'Titre de l\'article 1',
-      date: '01/02/2025',
-      author: 'Alice',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
-    },
-    {
-      id: 2,
-      title: 'Titre de l\'article 2',
-      date: '05/02/2025',
-      author: 'Bob',
-      description: 'Suspendisse potenti. Nullam commodo libero in lorem laoreet.'
-    },
-    {
-      id: 3,
-      title: 'Titre de l\'article 3',
-      date: '10/02/2025',
-      author: 'Charlie',
-      description: 'Fusce a metus id ligula ultricies ultrices non quis ligula.'
-    }
-  ];
+  articles: CardData[] = [];
+
 
   sortAscending = true;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private articlesService: ArticlesService,
+    private authService: AuthService) { }
+
+  ngOnInit() {
+    this.authService.getCurrentUser().subscribe((user: User) => {
+      this.articlesService.getArticlesBySubscription(user.id).subscribe((data: Article[]) => {
+        this.articles = data.map(article => ({
+          ...article,
+          id: article.id,
+          title: article.title,
+          content: article.content,
+          createdAt: new Date(article.createdAt).toLocaleDateString('fr-FR'),
+          authorUsername: article.authorUsername
+        }));
+      });
+    });
+  }
 
   goToCreateArticle() {
     // Navigation vers une page de création (exemple)
