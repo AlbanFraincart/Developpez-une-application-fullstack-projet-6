@@ -45,14 +45,6 @@ public class User {
     @Size(max = 120)
     private String password;
 
-//    @NotBlank
-//    @Size(max = 20)
-//    private String lastName;
-//
-//    @NotBlank
-//    @Size(max = 20)
-//    private String firstName;
-
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime createdAt;
@@ -65,9 +57,6 @@ public class User {
     @OnDelete(action = OnDeleteAction.SET_NULL)
     private List<Article> articles;
 
-    /** Commentaires laissés par l'utilisateur. */
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<Comment> comments;
 
     /**
      * Liste des topics auxquels l'utilisateur est abonné.

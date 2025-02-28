@@ -14,9 +14,11 @@ import { ErrorInterceptor } from './core/error.interceptor';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { TopicsComponent } from './pages/topics/topics.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { AddArticleComponent } from './pages/add-article/add-article.component';
+import { DetailArticleComponent } from './pages/detail-article/detail-article.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, AuthComponent, DashboardComponent, TopicsComponent, ProfileComponent],
+  declarations: [AppComponent, HomeComponent, AuthComponent, DashboardComponent, TopicsComponent, ProfileComponent, AddArticleComponent, DetailArticleComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

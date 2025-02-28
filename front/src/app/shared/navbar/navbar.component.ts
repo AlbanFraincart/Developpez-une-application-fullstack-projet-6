@@ -38,7 +38,6 @@ export class NavbarComponent implements OnInit {
     this.isMobile = window.innerWidth < 768;
   }
   toggleSidenav() {
-    console.log('toggleSidenav');
     this.menuToggle.emit();
   }
 

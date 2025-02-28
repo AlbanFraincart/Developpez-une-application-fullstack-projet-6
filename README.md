@@ -50,3 +50,6 @@ JWT_EXPIRATION_MS=86400000"
 
 - cd back
 - mvn clean install
+
+javadoc : mvn javadoc:javadoc
+Retrouvez la documentation dans le dossier : backend/target/site/apidocs/index.html

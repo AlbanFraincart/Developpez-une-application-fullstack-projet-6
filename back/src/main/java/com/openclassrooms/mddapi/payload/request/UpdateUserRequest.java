@@ -12,4 +12,7 @@ public class UpdateUserRequest {
     @Email
     @Size(max = 50)
     private String email;
+
+    @Size(min = 5, max = 120, message = "Le mot de passe doit contenir entre 8 et 120 caractères")
+    private String password;
 }

@@ -50,32 +50,6 @@ public class CommentService {
     }
 
     /**
-     * Récupère tous les commentaires existants.
-     *
-     * @return Liste des DTO de commentaires.
-     */
-    @Transactional(readOnly = true)
-    public List<CommentDto> getAllComments() {
-        return commentRepository.findAll().stream()
-                .map(commentMapper::toDto)
-                .toList();
-    }
-
-    /**
-     * Récupère un commentaire spécifique par son ID.
-     *
-     * @param id Identifiant du commentaire.
-     * @return DTO du commentaire.
-     * @throws ResourceNotFoundException si le commentaire n'existe pas.
-     */
-    @Transactional(readOnly = true)
-    public CommentDto getCommentById(Long id) {
-        Comment comment = commentRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Commentaire non trouvé"));
-        return commentMapper.toDto(comment);
-    }
-
-    /**
      * Met à jour un commentaire existant.
      *
      * @param id         Identifiant du commentaire à mettre à jour.

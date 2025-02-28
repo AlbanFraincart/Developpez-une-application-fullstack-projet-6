@@ -31,38 +31,53 @@ export class ProfileComponent implements OnInit {
     // 🔹 Initialisation AVANT l'appel API pour éviter l'erreur
     this.profileForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
-      email: ['', [Validators.required, Validators.email]]
+      email: ['', [Validators.required, Validators.email]],
+      password: ['']
     });
 
-    this.authService.getCurrentUser().subscribe((user: User) => {
-      this.user = user;
-      this.profileForm.patchValue({
-        username: user.username,
-        email: user.email
-      });
+    this.authService.currentUser$.subscribe((user) => {
+      if (user) {
+        this.user = user;
+        this.profileForm.patchValue({
+          username: user.username,
+          email: user.email
+        });
 
-      // 🔹 Charger les abonnements
-      this.subscriptionsService.getUserSubscriptions(user.id).subscribe((subs: Subscription[]) => {
-        this.subscriptions = subs;
-      });
-
+        this.subscriptionsService.getUserSubscriptions(user.id).subscribe((subs: Subscription[]) => {
+          this.subscriptions = subs;
+        });
+      }
     });
   }
 
   toggleEdit() {
     this.isEditing = !this.isEditing;
   }
+
+  // email entraîne une déconnexion, password facultatif
   saveProfile() {
     if (this.profileForm.invalid) return;
 
     const updatedUser = {
       username: this.profileForm.value.username,
-      email: this.profileForm.value.email
+      email: this.profileForm.value.email,
+      password: this.profileForm.value.password || null // ✅ On n'envoie pas un champ vide
     };
 
-    this.profileService.updateProfile(updatedUser).subscribe((user: User) => {
-      this.user = user; // ✅ Met à jour l'utilisateur en local
-      this.isEditing = false;
+    const emailChanged = updatedUser.email !== this.user.email;
+
+    this.profileService.updateProfile(updatedUser).subscribe({
+      next: (user: User) => {
+        this.user = user;
+        this.isEditing = false;
+
+        if (emailChanged) {
+          this.logout();
+        }
+      },
+      error: (err) => {
+        console.error("Erreur lors de la mise à jour du profil :", err);
+      }
     });
   }
 

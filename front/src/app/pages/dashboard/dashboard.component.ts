@@ -13,31 +13,31 @@ import { ArticlesService } from 'src/app/services/articles.service';
 })
 export class DashboardComponent {
   articles: CardData[] = [];
-
-
   sortAscending = true;
 
   constructor(private router: Router, private articlesService: ArticlesService,
-    private authService: AuthService) { }
+    private authService: AuthService) {
+  }
 
   ngOnInit() {
-    this.authService.getCurrentUser().subscribe((user: User) => {
-      this.articlesService.getArticlesBySubscription(user.id).subscribe((data: Article[]) => {
-        this.articles = data.map(article => ({
-          ...article,
-          id: article.id,
-          title: article.title,
-          content: article.content,
-          createdAt: new Date(article.createdAt).toLocaleDateString('fr-FR'),
-          authorUsername: article.authorUsername
-        }));
-      });
+    this.authService.currentUser$.subscribe((user) => {
+      if (user) {
+        this.articlesService.getArticlesBySubscription(user.id).subscribe((data: Article[]) => {
+          this.articles = data.map(article => ({
+            id: article.id,
+            title: article.title,
+            content: article.content,
+            createdAt: new Date(article.createdAt).toLocaleDateString('fr-FR'),
+            authorUsername: article.authorUsername
+          }));
+        });
+      }
     });
   }
 
   goToCreateArticle() {
     // Navigation vers une page de création (exemple)
-    this.router.navigate(['/articles/new']);
+    this.router.navigate(['add-article']);
   }
 
   toggleSortOrder() {
@@ -48,6 +48,6 @@ export class DashboardComponent {
 
   goToArticle(articleId: number) {
     // Navigation vers la page détail de l'article
-    this.router.navigate(['/articles', articleId]);
+    this.router.navigate(['/detail-article', articleId]);
   }
 }

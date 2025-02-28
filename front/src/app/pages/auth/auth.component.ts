@@ -11,7 +11,6 @@ import { AuthService } from 'src/app/core/auth.service';
 })
 export class AuthComponent implements OnInit {
   isMobile = signal(window.innerWidth < 768);
-  // isLoginMode!: boolean;
   authForm!: FormGroup;
   authError = signal<string | null>(null);
   // Détecter la valeur de `mode` dans l'URL
@@ -39,29 +38,20 @@ export class AuthComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
 
-    // Ajoute `username` en mode inscription
     this.updateFormFields();
   }
 
   updateFormFields() {
-    if (!this.authForm) return; // ✅ Vérifie que le formulaire existe
+    if (!this.authForm) return;
 
     if (!this.isLoginMode()) {
       this.authForm.addControl('username', this.fb.control('', [Validators.required]));
     } else {
-      if (this.authForm.contains('username')) { // ✅ Vérifie que le champ existe avant de le supprimer
+      if (this.authForm.contains('username')) {
         this.authForm.removeControl('username');
       }
     }
   }
-
-
-  // toggleMode() {
-  //   this.isLoginMode = !this.isLoginMode;
-  //   console.log('toggleMode', this.isLoginMode);
-  // }
-
-
 
   onSubmit() {
     if (this.authForm.invalid) return;
