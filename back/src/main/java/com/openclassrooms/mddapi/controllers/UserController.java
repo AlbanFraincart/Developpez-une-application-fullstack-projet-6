@@ -34,7 +34,6 @@ public class UserController {
      */
     @PatchMapping("/me")
     public ResponseEntity<UserDto> updateCurrentUser(@Valid @RequestBody UpdateUserRequest updateUserRequest) {
-        // Le service peut lever des exceptions (404, 409). Si aucune exception, on renvoie 200 OK.
         UserDto updatedUser = userService.updateCurrentUser(updateUserRequest);
         return ResponseEntity.ok(updatedUser);
     }

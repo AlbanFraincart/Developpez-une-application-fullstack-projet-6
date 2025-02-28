@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -32,4 +33,7 @@ public class ArticleDto {
 
     @NotNull(message = "L'identifiant du sujet est obligatoire")
     private Long topicId;
+
+    private String topicName;
+    private List<CommentDto> comments;
 }

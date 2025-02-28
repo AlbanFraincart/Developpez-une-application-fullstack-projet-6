@@ -22,6 +22,8 @@ public class CommentDto {
     @NotNull(message = "L'identifiant de l'utilisateur est obligatoire")
     private Long userId;
 
+    private String authorUsername;
+
     @NotNull(message = "L'identifiant de l'article est obligatoire")
     private Long articleId;
 }

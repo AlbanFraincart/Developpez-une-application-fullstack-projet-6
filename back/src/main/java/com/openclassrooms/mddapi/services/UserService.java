@@ -9,6 +9,8 @@ import com.openclassrooms.mddapi.payload.request.UpdateUserRequest;
 import com.openclassrooms.mddapi.repositories.UserRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -18,11 +20,13 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     public UserService(UserRepository userRepository,
-                       UserMapper userMapper) {
+                       UserMapper userMapper, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -46,7 +50,6 @@ public class UserService {
     public UserDto updateCurrentUser(UpdateUserRequest updateRequest) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (!(principal instanceof UserDetails userDetails)) {
-            // Pas d'utilisateur authentifié
             throw new UserNotFoundException("Utilisateur non trouvé ou non authentifié");
         }
 
@@ -54,20 +57,21 @@ public class UserService {
         User user = userRepository.findByEmail(currentEmail)
                 .orElseThrow(() -> new UserNotFoundException("Utilisateur non trouvé"));
 
-        // Mise à jour du username s'il est fourni et non vide
         if (StringUtils.hasText(updateRequest.getUsername())) {
             user.setUsername(updateRequest.getUsername());
         }
 
-        // Mise à jour de l'email s'il est fourni et différent
         if (StringUtils.hasText(updateRequest.getEmail())
                 && !updateRequest.getEmail().equalsIgnoreCase(user.getEmail())) {
-
-            // Vérifier que le nouvel email n'est pas déjà utilisé
             if (userRepository.existsByEmail(updateRequest.getEmail())) {
                 throw new EmailAlreadyUsedException("Erreur : L'email est déjà utilisé !");
             }
             user.setEmail(updateRequest.getEmail());
+        }
+
+        // ✅ Vérification et encodage du mot de passe
+        if (StringUtils.hasText(updateRequest.getPassword())) {
+            user.setPassword(passwordEncoder.encode(updateRequest.getPassword()));
         }
 
         userRepository.save(user);

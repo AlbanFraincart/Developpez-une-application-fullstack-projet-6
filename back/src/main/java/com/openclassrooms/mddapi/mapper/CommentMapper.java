@@ -4,16 +4,12 @@ import com.openclassrooms.mddapi.dto.CommentDto;
 import com.openclassrooms.mddapi.entities.Comment;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 
 /**
  * Mapper permettant la conversion entre l'entité {@link Comment} et son DTO {@link CommentDto}.
  */
 @Mapper(componentModel = "spring")
 public interface CommentMapper {
-
-    /** Instance du mapper pour utilisation manuelle si besoin. */
-    CommentMapper INSTANCE = Mappers.getMapper(CommentMapper.class);
 
     /**
      * Convertit une entité {@link Comment} en DTO {@link CommentDto}.
@@ -22,6 +18,7 @@ public interface CommentMapper {
      * @return Un objet CommentDto correspondant.
      */
     @Mapping(source = "user.id", target = "userId")
+    @Mapping(source = "user.username", target = "authorUsername")
     @Mapping(source = "article.id", target = "articleId")
     CommentDto toDto(Comment comment);
 

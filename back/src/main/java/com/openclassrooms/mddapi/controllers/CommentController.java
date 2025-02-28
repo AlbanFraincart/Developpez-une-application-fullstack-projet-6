@@ -33,28 +33,6 @@ public class CommentController {
     public ResponseEntity<CommentDto> addComment(@Valid @RequestBody CommentDto commentDto) {
         return ResponseEntity.ok(commentService.addComment(commentDto));
     }
-
-    /**
-     * Récupère tous les commentaires existants.
-     *
-     * @return ResponseEntity contenant la liste des commentaires.
-     */
-    @GetMapping
-    public ResponseEntity<List<CommentDto>> getAllComments() {
-        return ResponseEntity.ok(commentService.getAllComments());
-    }
-
-    /**
-     * Récupère un commentaire spécifique par son ID.
-     *
-     * @param id L'identifiant du commentaire à récupérer.
-     * @return ResponseEntity contenant le commentaire correspondant.
-     */
-    @GetMapping("/{id}")
-    public ResponseEntity<CommentDto> getCommentById(@PathVariable Long id) {
-        return ResponseEntity.ok(commentService.getCommentById(id));
-    }
-
     /**
      * Met à jour un commentaire existant.
      *

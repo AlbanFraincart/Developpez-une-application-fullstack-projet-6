@@ -19,37 +19,39 @@ export class TopicsComponent implements OnInit {
   constructor(private topicsService: TopicsService, private authService: AuthService, private subscriptionsService: SubscriptionsService,) { }
 
   ngOnInit() {
-    this.authService.getCurrentUser().subscribe((user: User) => {
-      // 🔹 Utilisation de forkJoin pour exécuter les 2 requêtes **en même temps** et attendre leur réponse
-      forkJoin({
-        subscriptions: this.subscriptionsService.getUserSubscriptions(user.id),
-        topics: this.topicsService.getTopics()
-      }).subscribe(({ subscriptions, topics }) => {
-        // ✅ Remplir userSubscriptions
-        this.userSubscriptions = new Set(subscriptions.map((sub: Subscription) => sub.id));
-        console.log('userSubscriptions après récupération:', this.userSubscriptions);
+    this.authService.currentUser$.subscribe((user) => {
+      if (user) {
+        forkJoin({
+          subscriptions: this.subscriptionsService.getUserSubscriptions(user.id),
+          topics: this.topicsService.getTopics()
+        }).subscribe(({ subscriptions, topics }) => {
+          this.userSubscriptions = new Set(subscriptions.map((sub: Subscription) => sub.id));
 
-        // ✅ Charger les topics après avoir les abonnements
-        this.topics = topics.map(topic => ({
-          id: topic.id,
-          title: topic.name,
-          content: topic.description,
-          buttonLabel: this.userSubscriptions.has(topic.id) ? "Abonné(e)" : "S'abonner"
-        }));
-
-        console.log('Topics après mise à jour:', this.topics);
-      });
+          this.topics = topics.map(topic => ({
+            id: topic.id,
+            title: topic.name,
+            content: topic.description,
+            buttonLabel: this.userSubscriptions.has(topic.id) ? "Abonné(e)" : "S'abonner"
+          }));
+        });
+      }
     });
   }
 
+
   subscribeToTopic(topicId: number) {
-    this.authService.getCurrentUser().subscribe((user: User) => {
+    this.authService.currentUser$.subscribe((user) => {
+      if (!user) return;
+
       this.subscriptionsService.suscribeToTopic(topicId, user.id).subscribe(() => {
+        // 🔹 Met à jour la liste des abonnements en local
+        this.userSubscriptions.add(topicId);
+
         this.topics = this.topics.map(topic => {
           if (topic.id === topicId) {
             return {
               ...topic,
-              buttonLabel: "Abonné"
+              buttonLabel: "Abonné(e)"
             };
           }
           return topic;
@@ -57,4 +59,5 @@ export class TopicsComponent implements OnInit {
       });
     });
   }
+
 }

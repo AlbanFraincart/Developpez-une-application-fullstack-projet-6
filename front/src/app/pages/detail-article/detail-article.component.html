@@ -1,0 +1,50 @@
+<div class="article-detail-container">
+  <!-- Flèche retour + Titre -->
+  <div class="article-header">
+    <button class="back-button" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h2 class="article-title">{{ article.title }}</h2>
+  </div>
+
+  <!-- Infos de l'article -->
+  <div class="article-info">
+    <span class="span-info">{{ article.createdAt | date : "dd/MM/yyyy" }}</span>
+    <span class="span-info">{{ article.authorUsername }}</span>
+    <span>{{ article.topicName }}</span>
+  </div>
+
+  <!-- Contenu de l'article -->
+  <p class="article-content">{{ article.content }}</p>
+
+  <!-- Séparateur -->
+  <hr class="separator" />
+
+  <!-- Section commentaires -->
+  <h3 class="comments-title">Commentaires</h3>
+
+  <div class="comments-section">
+    <div class="comment-item" *ngFor="let comment of article?.comments">
+      <div class="comment-username">{{ comment.authorUsername }}</div>
+      <div class="comment-content">{{ comment.content }}</div>
+    </div>
+  </div>
+
+  <!--  Formulaire d'ajout de commentaire -->
+  <form [formGroup]="commentForm">
+    <div class="comment-form">
+      <textarea
+        class="comment-input"
+        placeholder="Écrivez ici votre commentaire"
+        formControlName="content"
+      ></textarea>
+      <button
+        class="send-button"
+        (click)="addComment()"
+        [disabled]="commentForm.invalid"
+      >
+        <img src="assets/icon-send.svg" alt="Envoyer" />
+      </button>
+    </div>
+  </form>
+</div>
