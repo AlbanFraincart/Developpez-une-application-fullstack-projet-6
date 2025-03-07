@@ -84,7 +84,7 @@ export class AuthComponent implements OnInit {
   }
 
   back() {
-    this.router.navigate(['/']);
+    this.router.navigate(['/home']);
   }
 
   @HostListener('window:resize', [])

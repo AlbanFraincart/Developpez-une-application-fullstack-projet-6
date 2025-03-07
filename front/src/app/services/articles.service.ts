@@ -26,6 +26,7 @@ export class ArticlesService {
   }
 
   addComment(comment: { content: string; userId: number; articleId: number }): Observable<ArticleComment> {
+    console.log(comment);
     return this.httpClient.post<ArticleComment>(`${this.apiUrl}/comments`, comment);
   }
 

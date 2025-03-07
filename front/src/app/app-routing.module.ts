@@ -9,7 +9,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { AddArticleComponent } from './pages/add-article/add-article.component';
 import { DetailArticleComponent } from './pages/detail-article/detail-article.component';
 
-const routes: Routes = [{ path: '', component: HomeComponent },
+const routes: Routes = [{ path: 'home', component: HomeComponent },
 { path: 'auth', component: AuthComponent },
 { path: 'articles', component: DashboardComponent, canActivate: [authGuard] }, // Route privée
 { path: 'topics', component: TopicsComponent, canActivate: [authGuard] }, // Route privée

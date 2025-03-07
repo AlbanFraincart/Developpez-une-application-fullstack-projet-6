@@ -11,8 +11,14 @@ export class NavbarComponent implements OnInit {
   isMobile = false;
   @ViewChild('sidenav') sidenav!: MatSidenav;
   currentUrl = signal(this.router.url);
-  isAuthPage = computed(() => this.currentUrl().includes('/auth'));
-  hideNavbar = computed(() => this.isAuthPage() && this.isMobile); // Masque complètement la navbar sur mobile
+  isAuthPage = computed(() =>
+    this.currentUrl().includes('/home') || this.currentUrl().includes('/auth')
+  );
+  hideNavbar = computed(() => {
+    const url = this.currentUrl();
+    // Masquer la navbar sur /home, ou sur /auth uniquement en mobile
+    return url === '/home' || (url.includes('/auth') && this.isMobile);
+  });
   @Output() menuToggle = new EventEmitter<void>();
 
 
