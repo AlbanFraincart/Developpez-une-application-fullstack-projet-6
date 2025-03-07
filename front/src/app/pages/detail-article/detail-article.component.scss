@@ -9,17 +9,25 @@
 
 .back-button {
   position: absolute;
+  background: none;
+  border: none;
+  left: 0px;
+  top: 0px;
+}
+
+.back-button mat-icon {
+  position: absolute;
+  font-size: 40px !important;
+  width: 40px !important;
+  height: 40px !important;
   left: 20px;
-  top: 100px;
+  top: 120px;
   background: none;
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
-
-  mat-icon {
-    font-size: 24px;
-  }
+  z-index: 1000;
 }
 
 .article-header {
@@ -198,5 +206,28 @@
   .send-button img {
     width: 40px;
     height: 40px;
+  }
+
+  .back-button {
+    position: absolute;
+    background: none;
+    border: none;
+    left: 0px;
+    top: 0px;
+  }
+
+  .back-button mat-icon {
+    position: absolute;
+    font-size: 40px !important;
+    width: 40px !important;
+    height: 40px !important;
+    left: 10px;
+    top: 90px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    z-index: 1000;
   }
 }
