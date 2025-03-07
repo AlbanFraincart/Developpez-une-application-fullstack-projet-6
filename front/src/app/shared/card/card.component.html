@@ -4,7 +4,7 @@
     *ngIf="data.createdAt && data.authorUsername"
     class="data-card-subtitle"
   >
-    <span>{{ data.createdAt }}</span>
+    <span>{{ data.createdAt | date : "dd/MM/yyyy" }}</span>
     <span>{{ data.authorUsername }}</span>
   </mat-card-subtitle>
   <mat-card-content>

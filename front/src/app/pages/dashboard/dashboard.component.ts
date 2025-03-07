@@ -27,9 +27,13 @@ export class DashboardComponent {
             id: article.id,
             title: article.title,
             content: article.content,
-            createdAt: new Date(article.createdAt).toLocaleDateString('fr-FR'),
+            createdAt: new Date(article.createdAt),
             authorUsername: article.authorUsername
           }));
+          this.articles.sort((a, b) =>
+            (b.createdAt?.getTime() ?? 0) - (a.createdAt?.getTime() ?? 0)
+          );
+
         });
       }
     });
@@ -42,9 +46,19 @@ export class DashboardComponent {
 
   toggleSortOrder() {
     this.sortAscending = !this.sortAscending;
-    // Ex. simple de tri : inverser l'ordre des articles
-    this.articles.reverse();
+    if (this.sortAscending) {
+      // Du plus vieux au plus récent
+      this.articles.sort((a, b) =>
+        (b.createdAt?.getTime() ?? 0) - (a.createdAt?.getTime() ?? 0)
+      );
+    } else {
+      // Du plus récent au plus vieux
+      this.articles.sort((a, b) =>
+        (a.createdAt?.getTime() ?? 0) - (b.createdAt?.getTime() ?? 0)
+      );
+    }
   }
+
 
   goToArticle(articleId: number) {
     // Navigation vers la page détail de l'article
